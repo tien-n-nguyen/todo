@@ -1,2 +1,36 @@
 \section{Introduction}
 \label{intro:sec}
+
+Writing TODO comments in source code is a common activity by
+developers to denote their pending programming tasks in a project. For
+example, a developer adds a TODO comment as in {\em ``TODO: print an
+  error message if file not found''}. This comment could serve as a
+reminder for himself/herself or a notification for other team members
+on a pending task. TODO comments are very useful in improving
+program comprehension, helping developers understanding the design
+and implementation in source code~\cite{souza-sigdoc05,ying-msr05}.
+
+In an ideal practice, after the developer or others perform the task
+by adding/modifying the code to print the error message, (s)he will
+remove that TODO comment.  It is reported that developers may have
+(partially) completed the task described in the TODO comment, however,
+did not update or remove it due to several reasons such as time
+constraints or
+carelessness~\cite{tdcleaner-fse21,wen-icpc19,icomment-sosp07}. Such
+an out-of-date TODO comment is called {\em obsolete} when its
+corresponding task was accomplished, however the comment itself is not
+removed. Obsolete TODO comments can confuse developers and due to
+their inconsistent information. They could make developers lose
+confidence and reliability of the
+code~\cite{tdcleaner-fse21,icomment-sosp07}. In many cases, the
+unreliable documentation becomes misleading and causes software
+defects in the future~\cite{icomment-sosp07,lintan-icse11}. In brief,
+obsolete TODO comments could reduce software quality including code
+comprehension and reliability, and increase software maintenance
+costs.
+
+Because manually detecting and removing the obsolete TODO comments is
+time consuming and tedious, it is highly desirable to develop an
+automated approach to detect/remove them as early as possible before
+they mislead developers and cause any consequences. However, there is
+very limited work on detecting obsolete TODO comments.
