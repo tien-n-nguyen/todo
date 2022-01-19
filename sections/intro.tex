@@ -33,23 +33,42 @@ Because manually detecting and removing the obsolete TODO comments is
 time-consuming and tedious, it is highly desirable to develop an
 automated approach to detect/remove them as early as possible before
 they mislead developers and cause any consequences. However, there is
-very limited work on detecting obsolete TODO comments. Recently, Gao
+still limited work on detecting obsolete TODO comments. Recently, Gao
 {\em et al.}~\cite{tdcleaner-fse21} introduced TDCleaner, a deep
 learning approach that converts TODO comments, the associated code
 changes, and the corresponding commit messages into the contextualized
 vectors and uses three encoders to learn correlations between them by
 optimizing the final probability score. For prediction, a given TODO
-comment {\bf T} is paired with the associated code change {\bf C}
-and commit message {\bf M}, and is fit into the trained TDCleaner
-model with three encoders to estimate the matching score for determine
-if the TODO comment is obsolete or not. The three encoders are trained
-with the goal of determining the status {\bf S} of the TODO comment
-$T$ in which $S$ is positive when $T$ is resolved (i.e., $T$ is
-obsolete because the TODO comment still appears). Basically, TDCleaner
-is trained using $\langle T, C, M \rangle$ triples such that the probability $P(S |
-\langle T, C, M \rangle)$ is maximized over the given training dataset. That is,
-TDCleaner finds $y$ such that $y = argmax_S P (S | \langle T, C, M \rangle)$. $P(S |
-\langle T, C, M \rangle)$ can be seen as the conditional likelihood of predicting
-the status $S$ given the input triples $\langle T, C, M \rangle$.
+comment {\bf T} is paired with the associated code change {\bf C} and
+commit message {\bf M}, and is fit into the trained TDCleaner model
+with three encoders to estimate the matching score to determine if the
+TODO comment is obsolete or not. The three encoders are trained with
+the goal of determining the status {\bf S} of the TODO comment $T$ in
+which $S$ is positive when $T$ is resolved (i.e., $T$ is obsolete
+because the TODO comment still appears). Basically, TDCleaner is
+trained using $\langle T, C, M \rangle$ triples such that the
+probability $P(S | \langle T, C, M \rangle)$ is maximized over the
+given training dataset. That is, TDCleaner finds $y$ such that $y =
+argmax_S P (S | \langle T, C, M \rangle)$. $P(S | \langle T, C, M
+\rangle)$ can be seen as the conditional likelihood of predicting the
+status $S$ given the input triples $\langle T, C, M
+\rangle$~\cite{tdcleaner-fse21}.
 
+While being the first automated tool for cleaning obsolete TODO
+comments, TDCleaner still has inherent limitations that cause low
+accuracy in detecting obsolete TODO comments. \underline{First}, while
+TDCleaner aims to learn the correlations among $\langle T, C, M
+\rangle$, those three components $T$ (TODO comments), $C$ (code
+changes), and $M$ (commit messages) are {\em not} at the same level
+w.r.t. the task.
 
+$T$ is the {\em description} of the task that is still {\em pending}
+at the time of $T$ was written. $C$ is the {\em code changes}, which
+could either accomplish or do not accomplish the task described in
+$T$. If $C$ fulfills the task, by the time of the commit of the code
+changes $C$, $T$ is deemed as {\em osolete} because $T$ is still in
+the source code and checked into the repository. Thus, the concordance
+between $T$ and $C$ is the key to decide if $T$ is obsolete. At the
+same time, the commit message $M$ is a subodinate for the code changes
+$C$ in which it is the {\em description of the entire commit}
+(including the coding task realized in $C$).
