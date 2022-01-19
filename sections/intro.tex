@@ -30,17 +30,26 @@ comprehension and reliability, and increase software maintenance
 costs.
 
 Because manually detecting and removing the obsolete TODO comments is
-time consuming and tedious, it is highly desirable to develop an
+time-consuming and tedious, it is highly desirable to develop an
 automated approach to detect/remove them as early as possible before
 they mislead developers and cause any consequences. However, there is
-very limited work on detecting obsolete TODO comments.
+very limited work on detecting obsolete TODO comments. Recently, Gao
+{\em et al.}~\cite{tdcleaner-fse21} introduced TDCleaner, a deep
+learning approach that converts TODO comments, the associated code
+changes, and the corresponding commit messages into the contextualized
+vectors and uses three encoders to learn correlations between them by
+optimizing the final probability score. For prediction, a given TODO
+comment {\bf T} is paired with the associated code change {\bf C}
+and commit message {\bf M}, and is fit into the trained TDCleaner
+model with three encoders to estimate the matching score for determine
+if the TODO comment is obsolete or not. The three encoders are trained
+with the goal of determining the status {\bf S} of the TODO comment
+$T$ in which $S$ is positive when $T$ is resolved (i.e., $T$ is
+obsolete because the TODO comment still appears). Basically, TDCleaner
+is trained using $\langle T, C, M \rangle$ triples such that the probability $P(S |
+\langle T, C, M \rangle)$ is maximized over the given training dataset. That is,
+TDCleaner finds $y$ such that $y = argmax_S P (S | \langle T, C, M \rangle)$. $P(S |
+\langle T, C, M \rangle)$ can be seen as the conditional likelihood of predicting
+the status $S$ given the input triples $\langle T, C, M \rangle$.
 
 
-three encoders, i.e., TODO Comment Encoder, Code Change Encoder, and
-Commit Message Encoder, to embed TODO comments, code changes, and
-commit messages into contextualized vectors respectively. TDCleaner
-then learns correlations and interactions between them by optimizing
-the final probability score. When it comes to online prediction, for a
-given TODO comment, we pair it with the associated code change and
-commit message, and fit them into the trained TDClearner model to
-estimate their matching score.
