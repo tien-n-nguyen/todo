@@ -34,3 +34,13 @@ time consuming and tedious, it is highly desirable to develop an
 automated approach to detect/remove them as early as possible before
 they mislead developers and cause any consequences. However, there is
 very limited work on detecting obsolete TODO comments.
+
+
+three encoders, i.e., TODO Comment Encoder, Code Change Encoder, and
+Commit Message Encoder, to embed TODO comments, code changes, and
+commit messages into contextualized vectors respectively. TDCleaner
+then learns correlations and interactions between them by optimizing
+the final probability score. When it comes to online prediction, for a
+given TODO comment, we pair it with the associated code change and
+commit message, and fit them into the trained TDClearner model to
+estimate their matching score.
