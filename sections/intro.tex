@@ -75,22 +75,33 @@ subodinate for the code changes $C$ in which it is the {\em
   description of the commit} (including the coding task realized in
 $C$). In TDCleaner, the concordance among three components in $P(S |
 \langle T, C, M \rangle)$ to detect obsolete TODO comments is too
-strict. The reason is that if $T$ is in concordance with $C$ ($T
-\leftrightarrow C$) and $T$ is not in accordance with $M$ ($T
-\nleftrightarrow M$), TDCleaner considers this case as
-non-concordance, i.e., $T$ is not obsolete. In fact, this case is
-an obsolete TODO comment because the code changes already realized the
-task described in $T$, but $T$ still appears in the committed source
-code. 
-%
-Thus, this treatment in TDCleaner {\em reduces recall}.
+strict. The reason is that if $T$ is {\em in concordance with} $C$ ($T
+\leftrightarrow C$) and $T$ is {\em not in accordance with} $M$ ($T
+\nleftrightarrow M$) (e.g., in the cases of poor commit messages),
+TDCleaner considers this case as non-concordance, i.e., $T$ is not
+obsolete. In fact, this comment is obsolete because the
+code changes already realized the task described in $T$, but $T$ still
+appears in the committed source code. Thus, this treatment in
+TDCleaner {\em reduces recall}.
 
 \underline{Second}, there are cases, in which the commit mesage $M$
 describing the {\em entire} commit that includes other changes beside
 the code changes $C$ realizing the task described in $T$. Let us use
-$M \geq C$ to denote these cases. Therefore, in some instances, we
-have $T \leftrightarrow C$ but $M \geq C$ and in some other instances,
-we have $T \leftrightarrow C$ and $M \leftrightarrow C$. TDCleaner
-would not be able to learn correctly the obsolete cases and would deem
-the former case as non-conformance. Thus, TDCleaner will miss those
-cases (i.e., {\em lower recall}).
+$M \geq C$ to denote these cases. For example, while the code changes
+$C$ print the error message when a file was not found, the commit
+message could describe the other changes in the same commit (e.g., in
+a tangled commit~\cite{flexeme-fse20}).  Therefore, in some training
+instances, we have $T \leftrightarrow C$ but $M \geq C$ and in other
+instances, we have $T \leftrightarrow C$ and $M \leftrightarrow
+C$. TDCleaner could incorrectly learn the obsolete cases
+and could mistakenly deem the case of ($T \leftrightarrow C$ and $M
+\geq C$) as non-conformance. Thus, TDCleaner will miss those cases
+(i.e., {\em lower recall}).
+
+\underline{Third}, similarly to the second point, due to the fact that
+$M$ describes the code changes in an entire commit, $M$ could describe
+the tasks other than the one described in the TODO comment $T$. That
+is, we have $T \leftrightarrow C$ but $M \geq T$. With other training
+instances where $T \leftrightarrow C$ but $M \leftrightarrow T$,
+TDCleaner could mistakenly deem the case of ($T \leftrightarrow C$ and
+$M \geq T$) as non-conformance, i.e., no obsolete.
