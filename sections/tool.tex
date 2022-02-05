@@ -1,0 +1,61 @@
+\section{Removing Obsolete TODO Comments with \tool}
+
+\subsection{Primary Task \texorpdfstring{(T\textsubscript{p})}{} : \texorpdfstring{<$C$, $T$>}{} Concordance}
+
+%\begin{enumerate}[leftmargin=2em, label=\textbf{\textit{\Alph*.}}]
+%    \item \textbf{\textit{CodeBERT for NL-PL pairs.}} 
+%    \newline
+\subsubsection{CodeBERT for NL-PL pairs.}
+The success of transformers-based,
+large pre-trained models for natural language processing 
+(NLP) tasks prompted researchers to explore the extension 
+of such techniques to multi-modal data. In the same spirit, 
+Feng et al.~\cite{DBLP:journals/corr/abs-2002-08155} introduced CodeBERT, a bimodal pre-trained 
+model for natural language (NL) and programming language 
+(PL) pairs. CodeBERT uses the same model architecture as 
+RoBERTa-base~\cite{DBLP:journals/corr/abs-1907-11692}, and has a total of 125M parameters.
+
+The segments corresponding to natural language text and 
+programming languages are input to CodeBERT, separated 
+by special tokens such as {\em [CLS]}, {\em [SEP]}, and {\em [EOS]}. Here, the 
+{\em [CLS]} token represents the final hidden representation of the
+aggregated sequence representation, {\em [SEP]} token helps 
+distinguish between the individual segments, and the {\em [EOS]} token
+represents the end of input sequences. Thus, an input to CodeBERT 
+looks like {\em [CLS], w\textsubscript{1}, w\textsubscript{2}, ..., w\textsubscript{U} [SEP], c\textsubscript{1}, c\textsubscript{2}, ..., c\textsubscript{V}, [EOS]}, 
+where {\em w\textsubscript{i}} correspond to tokens in natural language text, and 
+{\em c\textsubscript{j}} correspond to tokens in the programming language. 
+
+%    \vspace{0.8em}
+%    \item \textbf{\textit{Code Classification using CodeBERT.}}
+%    \newline
+\subsubsection{Code Classification using CodeBERT.}
+With TODO comments $T$ and the associated code modifications 
+$C$ as inputs, we design this task to determine the status 
+$S$ of $T$, i.e. predict whether the given $T$ has been addressed by
+the developers in $C$ or not:
+
+\begin{equation}
+    y = argmax_S P(S|<T, C>)
+\end{equation}
+
+Using $T$ and $C$ as the natural language text and programming
+language segments respectively, and initializing RoBERTa-base 
+model with weights from the pre-trained CodeBERT, we fine-tune 
+to the given datasets to encode $<T, C>$ pairs, and effectively 
+capture the semantic relationships between them. The final hidden 
+state representation of each $<T, C>$ pair is represented by the
+corresponding [CLS] token in the model, which we further forward 
+to a {\em classification head}. This unit essentially performs a non-linear 
+transformation to generate a pooled output for the inputs. The 
+output thus generated is used to classify whether a given instance 
+is \textit{obsolete} or \textit{non-obsolete}.  Note that we constrain the number of 
+tokens in $T$ (i.e., $U$) and $C$ (i.e., $V$) to a maximum length of 128
+(i.e., $U \leq 128$ and $V \leq 128$). In addition, the entire input is limited to a 
+maximum sequence length of 256 tokens.
+
+%\end{enumerate}
+
+\subsection{Auxiliary Task \texorpdfstring{(T\textsubscript{a})}{} : \texorpdfstring{<$T$, $M$>}{} Concordance}
+
+\subsection{Ensemble Voting Classifier}

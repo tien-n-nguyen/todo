@@ -13,6 +13,7 @@
 
 \usepackage{booktabs}   %% For formal tables:
                         %% http://ctan.org/pkg/booktabs
+\usepackage{caption}
 \usepackage{subcaption} %% For complex figures with subfigures/subcaptions
                         %% http://ctan.org/pkg/subcaption
 \usepackage{array}
@@ -30,8 +31,11 @@
 \newtheorem{definition}{Definition}
 \usepackage{balance}
 
-\usepackage[skins]{tcolorbox}
+\usepackage{fixltx2e}
+\usepackage{hyperref}
+\usepackage{enumitem}
 
+\usepackage[skins]{tcolorbox}
 \usepackage{xcolor,pifont}
 \newcommand*\colourcheck[1]{%
 	\expandafter\newcommand\csname #1check\endcsname{\textcolor{#1}{\ding{52}}}%
@@ -56,13 +60,15 @@
 }
 
 %\newcommand{\code}[1]{{\footnotesize\textsf{#1}}}
-
 \newcommand{\tool}{\textsc{TDConcord}\xspace}
+\newcommand{\irsc}{\textsc{IRSC}\xspace}
+\newcommand{\tdcleaner}{\textsc{TDCleaner}\xspace}
 
 \newtheorem{Definition}{Definition}
 \newtheorem{Claim}{Claim}
 \newtheorem{Lemma}{Lemma}
 \newtheorem{Theorem}{Theorem}
+
 
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newtheorem{observation}{Observation}
@@ -147,7 +153,13 @@ Abstract goes here ...
 \maketitle
 
 \input{sections/intro}
-
+\input{sections/motivation}
+\input{sections/our_approach}
+\input{sections/tool}
+\input{sections/empirical_eval}
+\input{sections/results}
+\input{sections/related_work}
+\input{sections/conclusion}
 \newpage
 
 \balance
